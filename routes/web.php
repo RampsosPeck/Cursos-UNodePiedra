@@ -11,6 +11,14 @@
 |
 */
 
+Route::get('login/{driver}','Auth\LoginController@redirectToProvider')->name('social_auth');
+//Aqui va la devolucion de la app q nos redirige
+Route::get('login/{driver}/callback','Auth\LoginController@handleProviderCallback');
+
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

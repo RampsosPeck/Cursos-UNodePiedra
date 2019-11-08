@@ -2,8 +2,9 @@
 
 namespace Unopicursos\Http\Controllers\Auth;
 
-use Unopicursos\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Laravel\Socialite\Facades\Socialite;
+use Unopicursos\Http\Controllers\Controller;
 
 class LoginController extends Controller
 {
@@ -36,4 +37,17 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    public function redirectToProvider (string $driver) {
+        return Socialite::driver($driver)->redirect();
+    }
+
+    public function handleProviderCallback (string $driver) {
+        $socialUser = Socialite::driver($driver)->user();
+        dd($socialUser);
+    }
+
 }
+
+
+

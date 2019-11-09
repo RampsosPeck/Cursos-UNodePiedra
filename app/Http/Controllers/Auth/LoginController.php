@@ -5,6 +5,9 @@ namespace Unopicursos\Http\Controllers\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Laravel\Socialite\Facades\Socialite;
 use Unopicursos\Http\Controllers\Controller;
+use Unopicursos\Student;
+use Unopicursos\User;
+use Unopicursos\UserSocialAccount;
 
 class LoginController extends Controller
 {
@@ -43,8 +46,47 @@ class LoginController extends Controller
     }
 
     public function handleProviderCallback (string $driver) {
+        //Si llega una variable llamada "code"
+        if( ! request()->has('code' ) || request()->has('denied')){
+            session()->flash('message',['danger', __("Inicio de sesión cancelada")]);
+            return redirect('login');
+        }
         $socialUser = Socialite::driver($driver)->user();
-        dd($socialUser);
+        //dd($socialUser);
+        $user = null;
+        $success = true;
+        $email = $socialUser->email;
+        $check = User::whereEmail($email)->first();
+        if($check){
+            $user = $check;
+        }else{
+            \DB::beginTransaction();
+            try {
+                $user = User::create([
+                    "name" => $socialUser->name,//nickname,
+                    "email" => $email
+                ]);
+                UserSocialAccount::create([
+                    "user_id" => $user->id,
+                    "provider" => $driver,
+                    "provider_uid" => $socialUser->id
+                ]);
+                Student::create([
+                    "user_id" => $user->id
+                ]);
+            } catch (\Exception $exception) {
+                $success = $exception->getMessage();
+                \DB::rollBack();
+            }
+        }
+        if($success === true) {
+            \DB::commit();
+            auth()->loginUsingId($user->id);
+            return redirect(route('home'));
+        }
+        session()->flash('message', ['danger', $success]);
+        return redirect('login');
+
     }
 
 }

@@ -2,11 +2,13 @@
 
 namespace Unopicursos\Http\Controllers\Auth;
 
-use Unopicursos\User;
-use Unopicursos\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Unopicursos\Http\Controllers\Controller;
+use Unopicursos\Student;
+use Unopicursos\User;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -69,4 +71,14 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+
+
+    protected function registered(Request $request, $user)
+    {
+        Student::create([
+            'user_id' => $user->id
+        ]);
+        return redirect('/');
+    }
+
 }

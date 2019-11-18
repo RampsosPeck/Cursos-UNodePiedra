@@ -3,6 +3,7 @@
 namespace Unopicursos\Http\Controllers\Auth;
 
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use Unopicursos\Http\Controllers\Controller;
 use Unopicursos\Student;
@@ -39,6 +40,15 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function logout(Request $request)
+    {
+        auth()->logout();
+
+        session()->flush();
+
+        return redirect('/login');
     }
 
     public function redirectToProvider (string $driver) {

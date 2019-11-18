@@ -24,8 +24,9 @@
 
 </head>
 <body>
+    @include('partials.navigation')
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+        {{-- <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -72,7 +73,7 @@
                     </ul>
                 </div>
             </div>
-        </nav>
+        </nav>   --}}
 
         <main class="py-4">
             @if(session('message'))

@@ -27,6 +27,10 @@ class User extends Authenticatable
         'name', 'email', 'password',
     ];
 
+    public static function navigation () {
+        return auth()->check() ? auth()->user()->role->name : 'guest';
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *

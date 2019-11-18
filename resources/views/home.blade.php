@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+{{-- <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -18,6 +18,23 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>  --}}
+
+<div class="pl-5 pr-5">
+    <div class="row justify-content-center">
+        @forelse($courses as $course)
+            <div class="col-md-3">
+                {{ $course->name }}
+            </div>
+        @empty
+            <div class="alert alert-dark">
+                {{ __("No hay ningún curso disponible") }}
+            </div>
+        @endforelse
+    </div>
+    <div class="row justify-content-center">
+        {{ $courses->links() }}
     </div>
 </div>
 @endsection

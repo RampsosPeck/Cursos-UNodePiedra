@@ -25,6 +25,8 @@
 </head>
 <body>
     @include('partials.navigation')
+
+    @yield('jumbotron')
     <div id="app">
         {{-- <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">

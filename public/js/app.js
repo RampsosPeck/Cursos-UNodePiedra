@@ -49095,10 +49095,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -49150,23 +49146,14 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c(
-      "div",
-      { staticClass: "row justify-content-center" },
-      [
-        _c("stripe-checkout", {
-          attrs: {
-            button: "Suscribime",
-            buttonClass: "btn btn-course",
-            "stripe-key": _vm.stripe_key,
-            product: _vm.product
-          }
-        })
-      ],
-      1
-    )
-  ])
+  return _c("stripe-checkout", {
+    attrs: {
+      button: "Suscribirme",
+      buttonClass: "btn btn-course",
+      "stripe-key": _vm.stripe_key,
+      product: _vm.product
+    }
+  })
 }
 var staticRenderFns = []
 render._withStripped = true

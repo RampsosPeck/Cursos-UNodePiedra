@@ -34,11 +34,11 @@ class SubscriptionController extends Controller
         $token = request('stripeToken');
         try{
             if(\request()->has('coupon')){
-                \request()->user()->mewSubscription('main', \request('type'))->withCoupon(\request('coupon'))->create($token);
+                \request()->user()->newSubscription('main', \request('type'))->withCoupon(\request('coupon'))->create($token);
             } else {
-                \request()->user()->mewSubscription('main', \request('type'))->create($token);
+                \request()->user()->newSubscription('main', \request('type'))->create($token);
             }
-            return redirect(route('subscription.admin'))->with('message',['success', __("La subscripcion se ha llevado a cabo correctaemte")]);
+            return redirect(route('subscriptions.admin'))->with('message',['success', __("La subscripcion se ha llevado a cabo correctaemte")]);
         } catch (\Exception $exception) {
             $error = $exception->getMessage();
             return back()->with('message',['danger', $error]);
@@ -54,8 +54,8 @@ class SubscriptionController extends Controller
      */
     public function admin(Request $request)
     {
-
-        return view('subscriptions.admin');
+        $subscriptions = auth()->user()->subscriptions;
+        return view('subscriptions.admin', compact('subscriptions'));
     }
 
     /**
@@ -64,20 +64,20 @@ class SubscriptionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function resume()
     {
-        //
+        $subscription = \request()->user()->subscription(\request('plan'));
+        if($subscription->cancelled() && $subscription->onGracePeriod()){
+            \request()->user()->subscription(\request('plan'))->resume();
+            return back()->with('message',['success', __("Has reanudado tu suscripción correctamente")]);
+        }
+        return back();
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function cancel()
     {
-        //
+        auth()->user()->subscription(\request('plan'))->cancel();
+        return back()->with('message',['success',__("La suscripción se ha cancelado correctamente")]);
     }
 
     /**

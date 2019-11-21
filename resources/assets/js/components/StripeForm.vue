@@ -1,20 +1,16 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center">
-            <stripe-checkout
-                button="Suscribime"
-                buttonClass="btn btn-course"
-                :stripe-key="stripe_key"
-                :product="product"
-            >
-            </stripe-checkout>
-        </div>
-    </div>
+    <stripe-checkout
+            button="Suscribirme"
+            buttonClass="btn btn-course"
+            :stripe-key="stripe_key"
+            :product="product"
+    >
+    </stripe-checkout>
 </template>
 
 <script>
     import { StripeCheckout } from 'vue-stripe';
-    export default  {
+    export default {
         components: {
             StripeCheckout
         },
@@ -26,7 +22,7 @@
             description: ''
         },
         computed: {
-            product() {
+            product () {
                 return {
                     name: this.name,
                     amount: parseFloat(this.amount),

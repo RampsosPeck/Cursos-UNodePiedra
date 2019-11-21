@@ -13,7 +13,8 @@
 		<p class="card-text">
 			{{ str_limit($course->description , 100, ' leer mas...') }}
 		</p>
-		<a href="" class="btn btn-course btn-block">
+		<a href="{{ route('courses.detail', $course->slug) }}"
+			class="btn btn-course btn-block">
 			{{ __("Más información") }}
 		</a>
 	</div>

@@ -4,46 +4,12 @@ namespace Unopicursos\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Unopicursos\Course;
+use Unopicursos\Mail\NewStudentInCourse;
+use Unopicursos\Review;
 
 class CourseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(Course $course)//$slug)
     {
         $course->load([
@@ -94,31 +60,36 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function inscribe(Course $course)
     {
-        //
+        //return new NewStudentInCourse($course, auth()->user()->name);
+        $course->students()->attach(auth()->user()->student->id);
+
+        \Mail::to($course->teacher->user)->send(new NewStudentInCourse($course, auth()->user()->name));
+
+        return  back()->with('message', ['success', __("Inscrito correctamente al curso")]);
+
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function subscribed ()
     {
-        //
+        $courses = Course::whereHas('students', function($query){
+            $query->where('user_id', auth()->id());
+        })->get();
+        //$courses = auth()->user()->student->courses;
+        return view('courses.subscribed', compact('courses'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+
+    public function addReview()
     {
-        //
+        //dd(request()->all());
+        Review::create([
+            "user_id" => auth()->id(),
+            "course_id" => request('course_id'),
+            "rating" => (int) request('rating_input'),
+            "comment" => request('message')
+        ]);
+        return back()->with('message', ['success', __('Muchas gracias por valorar el curso')]);
     }
 }

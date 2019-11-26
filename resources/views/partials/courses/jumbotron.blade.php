@@ -13,7 +13,7 @@
 					<h5>{{ __("Fecha de Publicación") }}: {{ $course->updated_at->format('M d') }}</h5>
 					<h6>{{ __("Estudiantes inscritos") }}: {{ $course->students_count }}</h6>
 					<h6>{{ __("Número de valoraciones") }}: {{ $course->reviews_count }}</h6>
-					@include('partials.courses.raiting')
+					@include('partials.courses.raiting', ['rating'=>$course->custom_rating ])
 				</div>
 				@include('partials.courses.action_button')
 			</div>

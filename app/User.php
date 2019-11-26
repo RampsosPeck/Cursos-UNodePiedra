@@ -19,6 +19,10 @@ class User extends Authenticatable
             }
         });
     }
+
+    public function pathAttachment () {
+        return "/images/users/" . $this->picture;
+    }
     /**
      * The attributes that are mass assignable.
      *

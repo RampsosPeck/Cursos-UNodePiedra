@@ -20,7 +20,7 @@
 							<small>{{ $relatedCourse->name }}</small>
 						</div>
 						<div class="stats">
-							@include('partials.courses.raiting', ['course'=>$relatedCourse])
+							@include('partials.courses.raiting', ['rating'=>$relatedCourse->custom_rating])
 						</div>
 					</div>
 				</div>

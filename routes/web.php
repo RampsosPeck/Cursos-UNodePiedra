@@ -1,5 +1,7 @@
 <?php
 
+use Unopicursos\Role;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,6 +31,10 @@ Route::group(['prefix'=>'courses'], function(){
 		Route::get('/subscribed','CourseController@subscribed')->name('courses.subscribed')->middleware('auth');
 		Route::get('/{course}/inscribe','CourseController@inscribe')->name('courses.inscribe')->middleware('auth');
 		Route::post('/add_review','CourseController@addReview')->name('courses.add_review')->middleware('auth');
+
+		Route::get('/create','CourseController@create')->name('courses.create')->middleware([sprintf("role:%s", \Unopicursos\Role::TEACHER)]);
+		Route::post('/store','CourseController@store')->name('courses.store')->middleware([sprintf("role:%s", \Unopicursos\Role::TEACHER)]);
+		Route::put('/{course}/update','CourseController@update')->name('courses.update')->middleware([sprintf("role:%s", \Unopicursos\Role::TEACHER)]);
 	});
 
 	Route::get('/{course}','CourseController@show')->name('courses.detail');

@@ -60,5 +60,6 @@ class Kernel extends HttpKernel
         'guest' => \Unopicursos\Http\Middleware\RedirectIfAuthenticated::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'role' =>  \Unopicursos\Http\Middleware\RoleMiddleware::class,
     ];
 }

@@ -181,5 +181,10 @@ return [
         'title'                 => 'título',
         'username'              => 'usuario',
         'year'                  => 'año',
+        'requirements.0'        => 'requisito 1',
+        'requirements.0'        => 'requisito 2',
+        'golas.0'               => 'meta 1',
+        'goals.1'               => 'meta 2',
+
     ],
 ];

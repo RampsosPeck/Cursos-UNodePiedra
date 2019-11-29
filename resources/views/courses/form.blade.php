@@ -44,7 +44,7 @@
 							<div class="col-md-6">
 								 <select name="level_id" id="level_id" class="form-control">
 								 	@foreach(\Unopicursos\Level::pluck('name', 'id') as $id => $level)
-										<option {{ old('level_id') === $id || $course->level_id === $id ? 'selected' : '' }} value="{{ $id }}" >{{ $level }}</option>
+										<option {{ (int) old('level_id') === $id || $course->level_id === $id ? 'selected' : '' }} value="{{ $id }}" >{{ $level }}</option>
 
 								 	@endforeach
 								 </select>
@@ -57,7 +57,7 @@
 							<div class="col-md-6">
 								 <select name="category_id" id="category_id" class="form-control">
 								 	@foreach(\Unopicursos\Category::pluck('name', 'id') as $id => $category)
-										<option {{ old('category_id') === $id || $course->category_id === $id ? 'selected' : '' }} value="{{ $id }}" >{{ $category }}</option>
+										<option {{ (int) old('category_id') === $id || $course->category_id === $id ? 'selected' : '' }} value="{{ $id }}" >{{ $category }}</option>
 
 								 	@endforeach
 								 </select>

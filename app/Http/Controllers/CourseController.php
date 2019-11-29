@@ -4,6 +4,7 @@ namespace Unopicursos\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Unopicursos\Course;
+use Unopicursos\Http\Requests\CourseRequest;
 use Unopicursos\Mail\NewStudentInCourse;
 use Unopicursos\Review;
 
@@ -100,5 +101,9 @@ class CourseController extends Controller
         return view('courses.form', compact('course', 'btnText'));
     }
 
+    public function store (CourseRequest $course)
+    {
+
+    }
 
 }

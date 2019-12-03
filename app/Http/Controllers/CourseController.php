@@ -4,6 +4,7 @@ namespace Unopicursos\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Unopicursos\Course;
+use Unopicursos\Helpers\Helper;
 use Unopicursos\Http\Requests\CourseRequest;
 use Unopicursos\Mail\NewStudentInCourse;
 use Unopicursos\Review;
@@ -103,7 +104,13 @@ class CourseController extends Controller
 
     public function store (CourseRequest $course)
     {
+        $picture = Helper::uploadFile('picture', 'courses');
+        $course->merge(['picture'=> $picture]);
+        $course->merge(['teacher_id'=> auth()->user()->teacher->id]);
+        $course->merge(['status'=> Course::PENDING]);
+        Course::create($course->input());
 
+        return back()->with('message', ['success', __('Curso enviado correctament, recibirás un correo con cualquier información')]);
     }
 
 }

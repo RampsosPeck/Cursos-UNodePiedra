@@ -4,6 +4,8 @@ namespace Unopicursos;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Unopicursos\Goal;
+use Unopicursos\Requirement;
 
 class Course extends Model
 {
@@ -14,6 +16,42 @@ class Course extends Model
 	const REJECTED = 3;
 
 	protected $withCount = ['reviews','students'];
+
+	protected $fillable = ['name', 'teacher_id','description','picture','level_id','category_id','status','slug'];
+
+
+	public static function boot(){
+		parent::boot();
+
+		static::saving(function (Course $course){
+			if( ! \App::runningInConsole()) {
+				$course->slug = str_slug($course->name, "-");
+			}
+		});
+
+		static::saved(function (Course $course){
+			if( ! \App::runningInConsole()) {
+				foreach(request('requirements') as $key => $requirement_input){
+					if($requirement_input){
+						Requirement::updateOrCreate(['id'=> request('requirement_id'. $key)], [
+							'course_id' => $course->id,
+							'requirement' => $requirement_input
+						]);
+					}
+				}
+			}
+			if( request('goals')) {
+				foreach(request('goals') as $key => $goal_input){
+					if($goal_input){
+						Goal::updateOrCreate(['id'=> request('goal_id'. $key)], [
+							'course_id' => $course->id,
+							'goal' => $goal_input
+						]);
+					}
+				}
+			}
+		});
+	}
 
 	public function pathAttachment(){
 		return "/images/courses/" . $this->picture;

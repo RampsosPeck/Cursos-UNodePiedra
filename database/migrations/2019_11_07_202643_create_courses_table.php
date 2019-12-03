@@ -24,7 +24,7 @@ class CreateCoursesTable extends Migration
             $table->foreign('level_id')->references('id')->on('levels');
             $table->string('name');
             $table->text('description');
-            $table->string('slug');
+            $table->string('slug')->nullable();
             $table->string('picture')->nullable();
             $table->enum('status', [
                 Course::PUBLISHED, Course::PENDING, Course::REJECTED

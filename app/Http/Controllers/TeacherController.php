@@ -10,6 +10,8 @@ use Unopicursos\User;
 
 class TeacherController extends Controller
 {
+
+
     public function courses () {
         $courses = Course::withCount(['students'])->with('category', 'reviews')
             ->whereTeacherId(auth()->user()->teacher->id)->paginate(12);

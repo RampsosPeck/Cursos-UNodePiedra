@@ -13,7 +13,7 @@
         @forelse($courses as $course)
             <div class="col-md-8 offset-2 listing-block">
                 <div class="media" style="height: 200px;">
-                    <img alt="{{ $course->name  }}" style="height: 300px;" class="img-rounded" src="{{ $course->pathAttachment() }}" />
+                    <img alt="{{ $course->name  }}" style="height: 200px;" class="img-rounded" src="{{ $course->pathAttachment() }}" />
                     <div class="media-body pl-3" style="height: 200px;">
                         <div class="price">
                             <small class="badge-danger text-white text-center">
@@ -42,6 +42,9 @@
                 </a>
             </div>
         @endforelse
+    </div>
+    <div class="row justify-content-center">
+        {{ $courses->links() }}
     </div>
 </div>
 @endsection

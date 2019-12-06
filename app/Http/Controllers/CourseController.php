@@ -132,5 +132,14 @@ class CourseController extends Controller
         return back()->with('message', ['success', __('Curso actualizado')]);
 
     }
+    public function destroy (Course $course) {
+
+        try {
+            $course->delete();
+            return back()->with('message', ['success', __("Curso eliminado correctamente")]);
+        } catch (\Exception $exception) {
+            return back()->with('message', ['danger', __("Error eliminando el curso")]);
+        }
+    }
 
 }

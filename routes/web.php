@@ -34,13 +34,14 @@ Route::group(['prefix'=>'courses'], function(){
 
 		Route::group(['middleware'=>[sprintf("role:%s", \Unopicursos\Role::TEACHER)]], function() {
 
-			Route::get('/create','CourseController@create')->name('courses.create');
+			/*Route::get('/create','CourseController@create')->name('courses.create');
 			Route::post('/store','CourseController@store')->name('courses.store');
 			Route::put('/{course}/update','CourseController@update')->name('courses.update');
 
 			Route::get('/{slug}/edit','CourseController@edit')->name('courses.edit');
 			Route::put('/{course}/update','CourseController@update')->name('courses.update');
-			Route::delete('/{course}/destroy','CourseController@destroy')->name('courses.destroy');
+			Route::delete('/{course}/destroy','CourseController@destroy')->name('courses.destroy');*/
+			Route::resource('courses', 'CourseController');
 
 		});
 	});
@@ -91,6 +92,19 @@ Route::group(['prefix'=>'teacher',"middleware"=>["auth"]], function(){
 	Route::get('/students','TeacherController@students')->name('teacher.students');
 	Route::post('/send_message_to_student','TeacherController@sendMessageToStudent')->name('teacher.send_message_to_student');
 });
+
+Route::group(['prefix'=>'admin',"middleware"=>["auth", sprintf("role:%s", \Unopicursos\Role::ADMIN)]], function(){
+	Route::get('/courses','AdminController@courses')->name('admin.courses');
+	Route::get('/courses_json','AdminController@coursesJson')->name('admin.courses_json');
+	Route::post('/courses/updateStatus','AdminController@updateCourseStatus');
+
+	Route::get('/students','AdminController@students')->name('admin.students');
+	Route::get('/students_json','AdminController@studentsJson')->name('admin.students_json');
+	Route::get('/teachers','AdminController@teachers')->name('admin.teachers');
+	Route::get('/teachers_json','AdminController@teachersJson')->name('admin.teachers_json');
+
+});
+
 
 
 
